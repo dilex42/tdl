@@ -1,10 +1,22 @@
 Rails.application.routes.draw do
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
+resources :projects, only: [:index, :create, :update, :destroy] do
+  resources :tasks, only: [:create, :update, :destroy]
+end
+
+root 'projects#index'
+
+get '/projects/:project_id/tasks/:id/priority/:where' => 'tasks#priority', as:'priority'
+patch '/projects/:project_id/tasks/:id/deadline' => 'tasks#deadline', as:'deadline'
+get '/projects/:project_id/tasks/:id/done' => 'tasks#done', as:'done'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: MyText
+  project_id: 
+  is_done: false
+  priority: 1
+  deadline: 2014-08-04 16:29:19
+
+two:
+  text: MyText
+  project_id: 
+  is_done: false
+  priority: 1
+  deadline: 2014-08-04 16:29:19

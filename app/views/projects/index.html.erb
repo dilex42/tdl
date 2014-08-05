@@ -1,0 +1,61 @@
+<table>
+  <tr>
+    <th>Title</th>
+    <th colspan="3"></th>
+  </tr>
+ 
+<% @projects.each do |project| %>
+  <tr>
+    <td><%= project.title %></td>
+    <td><%= form_for project do |f| %>
+    <%= f.text_field :title %>
+    <%= f.submit  'Update'%>
+    <% end %></td>
+    <td><%= link_to 'Destroy', project_path(project),
+                    method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= form_for [project, Task.new] do |f| %>
+    <%= f.text_field :text %>
+    <%= f.submit  'New Task'%>
+    <% end %></td>
+  </tr>
+  <% project.tasks.order('priority').each do |task| %>
+  <tr>
+   <td ><%= task.text %></td>
+   <td><%= form_for [project,task] do |f| %>
+    <%= f.text_field :text %>
+    <%= f.submit  'Update'%>
+    <% end %>
+    </td>
+    <td><%= link_to 'Destroy', project_task_path(project,task),
+                    method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td> 
+    <%= link_to 'Up', priority_path(project,task,'up') %>
+    <%= link_to 'Down', priority_path(project,task,'down') %>
+
+    <% if task.is_done %>
+    Done
+    <% else %>
+    <%= link_to 'Done', done_path(project,task) %>
+    <% end %></td>
+    <td>
+    <%= form_for [project,task], url:  deadline_path(project,task) do |f| %>
+    <% if task.deadline
+    q = task.deadline.to_s(lambda { |time| time.iso8601 })
+    else
+    q = DateTime.current.to_s()
+    end %>
+    <%= f.datetime_local_field :deadline, value: q %>
+    <%= f.submit 'Check Date'%></td>
+<% end %>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+
+<%= form_for @project , method: :post do |f| %>
+
+<p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
