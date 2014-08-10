@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new
-    @project.title = 'Project #' + (Project.last.id+1).to_s
+    @project.title = 'New Project'
     @project.save
     redirect_to projects_path
   end
