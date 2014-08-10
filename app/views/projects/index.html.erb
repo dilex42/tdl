@@ -1,61 +1,148 @@
-<table>
-  <tr>
-    <th>Title</th>
-    <th colspan="3"></th>
-  </tr>
- 
-<% @projects.each do |project| %>
-  <tr>
-    <td><%= project.title %></td>
-    <td><%= form_for project do |f| %>
-    <%= f.text_field :title %>
-    <%= f.submit  'Update'%>
-    <% end %></td>
-    <td><%= link_to 'Destroy', project_path(project),
-                    method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <td><%= form_for [project, Task.new] do |f| %>
-    <%= f.text_field :text %>
-    <%= f.submit  'New Task'%>
-    <% end %></td>
-  </tr>
-  <% project.tasks.order('priority').each do |task| %>
-  <tr>
-   <td ><%= task.text %></td>
-   <td><%= form_for [project,task] do |f| %>
-    <%= f.text_field :text %>
-    <%= f.submit  'Update'%>
-    <% end %>
-    </td>
-    <td><%= link_to 'Destroy', project_task_path(project,task),
-                    method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <td> 
-    <%= link_to 'Up', priority_path(project,task,'up') %>
-    <%= link_to 'Down', priority_path(project,task,'down') %>
 
-    <% if task.is_done %>
-    Done
+<% @projects.each do |project| %>
+<script>
+
+$("body").delegate('#project_name<%=project.id%>', 'click', replace);
+$("body").delegate('#cancel_project<%=project.id%>', 'click', cancel);
+
+function replace() {
+    
+    $(this).replaceWith('<%= form_for project ,:html=> {:id => "inp_project#{project.id}",:style=>"display: inline;",:class=>"form-inline" } do |f| %><%= f.text_field :title, :class=>"span4",id:"project_edit#{project.id}" %><%= f.submit  "Update", class:"btn btn-warning",id:"update_pr_btn#{project.id}"%><i class="icon-ban-circle add-on icon-large" id="cancel_project<%=project.id%>"></i><% end %>');
+    $("#project_edit<%=project.id%>").keyup(function() {
+         if ($("#project_edit<%=project.id%>").val() !== "") {
+            $("#update_pr_btn<%=project.id%>").removeAttr('disabled');
+        } else {
+            $("#update_pr_btn<%=project.id%>").attr('disabled', 'true');
+        }
+    });
+}
+function cancel(){
+    $("#inp_project<%=project.id%>").replaceWith("<span id='project_name<%=project.id%>'><%= project.title %></span>");
+    $(this).replaceWith();
+         
+    }
+ 
+
+</script>
+
+  <div class="project-header">
+  <div class="project-title">
+  <i class="icon-cogs icon-silver icon-my icon-large"></i><span  id='project_name<%=project.id%>'><%= project.title %></span>
+  
+    <%= link_to content_tag(:i, '', class: "icon-trash icon-large icon-silver pull-right"), project_path(project),
+                    method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+>
+    </div>
+    <div class="new-task">
+    <i class="icon-plus icon-2x icon-green icon-my"></i>
+   <%= form_for [project, Task.new], :html=> {:style=>"display: inline;",:class=>"form-inline" } do |f| %>
+    <%= f.text_field :text, :placeholder=>"Start typing here to create a task...", :class=>"span6", id:"new_task#{project.id}" %>
+    <%= f.submit  'New Task', class:"btn btn-success", id:"new_btn#{project.id}", disabled:"disabled"%>
+    <% end %>
+    <script type="text/javascript">
+    $("#new_task<%=project.id%>").keyup(function() {
+         if ($("#new_task<%=project.id%>").val() !== "") {
+            $("#new_btn<%=project.id%>").removeAttr('disabled');
+        } else {
+            $("#new_btn<%=project.id%>").attr('disabled', 'true');
+        }
+    });
+
+    </script>
+    </div>
+  <% project.tasks.order('priority').each do |task| %>
+  <!--edit task -->
+  <script>
+
+$("body").delegate('#task_name<%=task.id%>', 'click', replace);
+$("body").delegate('#cancel_task<%=task.id%>', 'click', cancel);
+
+function replace() {
+    
+    $(this).replaceWith('<%= form_for [project,task] ,:html=> {:id => "inp_task#{task.id}",:style=>"display: inline;",:class=>"form-inline" } do |f| %><%= f.text_field :text, :style=>"width:200px;" ,id:"task_edit#{task.id}"%><%= f.submit  "Update", class:"btn btn-warning", id:"update_task_btn#{task.id}"%><i class="icon-ban-circle add-on icon-large" id="cancel_task<%=task.id%>"></i><% end %>');
+     $("#task_edit<%=task.id%>").keyup(function() {
+         if ($("#task_edit<%=task.id%>").val() !== "") {
+            $("#update_task_btn<%=task.id%>").removeAttr('disabled');
+        } else {
+            $("#update_task_btn<%=task.id%>").attr('disabled', 'true');
+        }
+    });
+}
+function cancel(){
+    $("#inp_task<%=task.id%>").replaceWith("<span id='task_name<%=task.id%>'><%= task.text %></span>");
+    $(this).replaceWith();
+         
+    }
+
+</script>
+<% if task.priority == project.tasks.count %>
+<div class="task last-task">
+<% else %>
+<div class="task">
+   <% end %>
+   <% if task.is_done %>
+    <i class="icon-check icon-large icon-my pull-left" style="
+    padding-top: 15px;"></i>
     <% else %>
-    <%= link_to 'Done', done_path(project,task) %>
-    <% end %></td>
-    <td>
-    <%= form_for [project,task], url:  deadline_path(project,task) do |f| %>
-    <% if task.deadline
-    q = task.deadline.to_s(lambda { |time| time.iso8601 })
-    else
-    q = DateTime.current.to_s()
-    end %>
-    <%= f.datetime_local_field :deadline, value: q %>
-    <%= f.submit 'Check Date'%></td>
-<% end %>
-  </tr>
+    <%= link_to content_tag(:i, '', class: "icon-check-empty icon-large icon-my pull-left",style:"padding-top:15px;width: 18px;"), done_path(project,task), data: { confirm: 'Are you sure?' } %>
+    <% end %>
+   <div class="span3 task-title">
+    <span id='task_name<%=task.id%>'><%= task.text %></span>
+    </div>
+    
+    
+    
+    <script>
+
+$("body").delegate('#task_dl<%=task.id%>', 'click', replace);
+$("body").delegate('#cancel_dl<%=task.id%>', 'click', cancel);
+
+function replace() {
+    
+    $(this).replaceWith('<%= form_for [project,task], url:  deadline_path(project,task),:html=> {:id => "set_dl#{task.id}",:style=>"display: inline;",:class=>"form-inline" } do |f| %><%= f.datetime_local_field :deadline, style:"width: 170px;" %><%= f.submit "Set Date" , class:"btn btn-warning"%><i class="icon-ban-circle add-on icon-large" id="cancel_dl<%=task.id%>"></i><% end %>');
+}
+function cancel(){
+    $("#set_dl<%=task.id%>").replaceWith('<span id="task_dl<%=task.id%>"><% if task.deadline %><%= task.time_diff(task.deadline,DateTime.current) %><% else %>No deadline set<% end %></span>');
+    $(this).replaceWith();
+         
+    }
+
+</script>
+
+<div class="task-right" id="task-right">
+<img src="/assets/sort.png" usemap="#sort<%= task.id%>">
+<map name="sort<%= task.id%>">
+<area shape="rect" coords="0,0,16,8" href="<%= priority_path(project,task,'up')%>" title="UP" alt="UP" />
+<area shape="rect" coords="0,8,16,16" href="<%= priority_path(project,task,'down')%>" title="DOWN" alt="DOWN" />
+</map>
+    <%= link_to content_tag(:i, '', class: "icon-trash icon-large icon-my "), project_task_path(project,task), method: :delete, data: { confirm: 'Are you sure?' }  %>
+
+<div class="task-deadline">
+
+<% if task.is_done %>
+<span>
+Task is Done
+    <% else %>
+<span id="task_dl<%=task.id%>">
+    <% if task.deadline %>
+    <%= task.time_diff(task.deadline,DateTime.current) %>
+    <% else %>
+    No deadline set
+    <% end end%>
+    </span>
+  </div>
+  </div>
+  </div>
   <% end %>
 <% end %>
-</table>
 
 <%= form_for @project , method: :post do |f| %>
 
-<p>
-    <%= f.submit %>
-  </p>
+  <div align="center" style="margin-top:30px;">
+  <%= button_tag(type: 'submit', class: "btn btn-primary btn-large") do %>
+  <i class="icon-plus icon-large"></i> New Project
+  <% end %>
+  </div>
 <% end %>
 

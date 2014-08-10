@@ -1,0 +1,103 @@
+@import "twitter/bootstrap/bootstrap";
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+@import "fontawesome/font-awesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+body {
+  padding-top: 60px;
+  background: url('bg.jpg');
+}
+@tableBackground: @white;
+
+.project-header {
+    background: linear-gradient(to top, #000080, #4D4DFF);
+    width: 100%;
+    padding-bottom: 20px;
+    border: 2px ridge #483D8B;
+    margin-top: 30px;
+}
+.project-title {
+    font-size: 21px;
+  font-weight: 200;
+  color: #FFF8DC;
+  margin-right: 25px;
+  padding-top: 10px;
+}
+.new-task{
+    background: linear-gradient(to top, #C0C0C0 , #FFFAFA   );
+    width: 100%;
+    border: 2px ridge #DCDCDC;
+    border-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+
+
+}
+.task{
+    background-color: #F8F8FF   ;
+    width: 100%;
+    border-right: 2px ridge #DCDCDC;
+    border-bottom: 1px ridge #DCDCDC;
+    border-left: 2px ridge #DCDCDC;
+    line-height: 50px;
+    overflow: auto;
+    
+}
+
+.last-task{
+        border-bottom-right-radius: 15px; 
+        border-bottom-left-radius: 15px;
+
+    }
+.task ul {
+    display: inline-block;
+     list-style-type: none;
+    }
+.task-title{
+    font-size: 17px;
+  font-weight: 200;
+  line-height: 50px;
+  width: 320px;
+}
+
+.task-deadline{
+    display: inline;
+
+}
+.task-right{
+    display:inline;
+}
+.icon-white {color: white}
+.icon-silver {color: silver}
+.icon-green {color: green}
+.icon-my{
+    margin-right :20px;
+    margin-left: 25px;
+    vertical-align: middle;
+}

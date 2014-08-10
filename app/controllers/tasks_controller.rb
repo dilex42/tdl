@@ -16,21 +16,14 @@ class TasksController < ApplicationController
     @task.text = params[:task][:text]
     @task.is_done = false
     @task.priority = @project.tasks.count+1
-    if @task.save 
-      redirect_to projects_path
-    else
-      render '404'
-    end
-
+    @task.save 
+    redirect_to projects_path
   end
 
   def update
     @task.text = params[:task][:text]
-    if @task.save
-      redirect_to projects_path
-    else
-      render '404'
-    end
+    @task.save
+    redirect_to projects_path
   end
 
   def destroy

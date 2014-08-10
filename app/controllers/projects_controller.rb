@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new
-    @project.title = 'Project #' + (Project.count+1).to_s
+    @project.title = 'Project #' + (Project.last.id+1).to_s
     @project.save
     redirect_to projects_path
   end
@@ -15,11 +15,8 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     @project.title = params[:project][:title]
-    if @project.save
-      redirect_to projects_path
-    else
-      render '404'
-    end
+    @project.save
+    redirect_to projects_path
   end
 
   def destroy
