@@ -111,7 +111,7 @@ function cancel(){
 </script>
 
 <div class="task-right" id="task-right">
-<img src="/assets/sort.png" usemap="#sort<%= task.id%>">
+<img src="<%= asset_path('sort.png') %>" usemap="#sort<%= task.id%>">
 <map name="sort<%= task.id%>">
 <area shape="rect" coords="0,0,16,8" href="<%= priority_path(project,task,'up')%>" title="UP" alt="UP" />
 <area shape="rect" coords="0,8,16,16" href="<%= priority_path(project,task,'down')%>" title="DOWN" alt="DOWN" />
