@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  respond_to :html, :json
   def index
     @projects = Project.all
     @project = Project.new
@@ -16,7 +17,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.title = params[:project][:title]
     @project.save
-    redirect_to projects_path
+    respond_with @project
   end
 
   def destroy

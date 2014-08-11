@@ -20,4 +20,11 @@ class Task < ActiveRecord::Base
   
   res+="#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
 end
+  def local_time()
+    if self.deadline
+      self.deadline.to_s(:long)
+    else
+      nil
+    end 
+  end
 end

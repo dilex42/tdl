@@ -15,7 +15,7 @@ end
 root 'projects#index'
 
 get '/projects/:project_id/tasks/:id/priority/:where' => 'tasks#priority', as:'priority'
-patch '/projects/:project_id/tasks/:id/deadline' => 'tasks#deadline', as:'deadline'
+put '/projects/:project_id/tasks/:id/deadline' => 'tasks#deadline', as:'deadline'
 get '/projects/:project_id/tasks/:id/done' => 'tasks#done', as:'done'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-
+  respond_to :html, :json
   before_action :find_project, only: [:create, :destroy, :priority] 
   before_action :find_task, only: [:update, :destroy, :priority, :deadline, :done]
 
@@ -23,7 +23,7 @@ class TasksController < ApplicationController
   def update
     @task.text = params[:task][:text]
     @task.save
-    redirect_to projects_path
+    respond_with @task
   end
 
   def destroy
@@ -64,7 +64,7 @@ class TasksController < ApplicationController
   def deadline
     @task.deadline = params[:task][:deadline]
     @task.save
-    redirect_to projects_path
+    respond_with @task
   end
 
   def done
