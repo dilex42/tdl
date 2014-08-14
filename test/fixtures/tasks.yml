@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+task_one:
   text: MyText
-  project_id: 
+  project: pr_one
   is_done: false
   priority: 1
   deadline: 2014-08-04 16:29:19
 
-two:
-  text: MyText
-  project_id: 
+task_two:
+  text: MyText2
+  project: pr_one
   is_done: false
-  priority: 1
+  priority: 2
   deadline: 2014-08-04 16:29:19

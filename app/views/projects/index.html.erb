@@ -37,23 +37,7 @@
     <span id='task_name<%=task.id%>'><%= best_in_place task, :text ,:path=>project_task_path(project,task)%></span>
     </div>
     
-    
-    <script>
 
-$("body").delegate('#task_dl<%=task.id%>', 'click', replace);
-$("body").delegate('#cancel_dl<%=task.id%>', 'click', cancel);
-
-function replace() {
-    
-    $(this).replaceWith('<%= form_for [project,task], url:  deadline_path(project,task),:html=> {:id => "set_dl#{task.id}",:style=>"display: inline;",:class=>"form-inline" } do |f| %><%= f.datetime_local_field :deadline, style:"width: 170px;" %><%= f.submit "Set Date" , class:"btn btn-warning"%><i class="icon-ban-circle add-on icon-large" id="cancel_dl<%=task.id%>"></i><% end %>');
-}
-function cancel(){
-    $("#set_dl<%=task.id%>").replaceWith('<span id="task_dl<%=task.id%>"><% if task.deadline %><%= task.time_diff(task.deadline,DateTime.current) %><% else %>No deadline set<% end %></span>');
-    $(this).replaceWith();
-         
-    }
-
-</script>
 
 <div class="task-right" id="task-right">
 <img src="<%= asset_path('sort.png') %>" usemap="#sort<%= task.id%>">
@@ -68,7 +52,7 @@ function cancel(){
 <span>
 Task is Done
     <% else %>
-<span id="task_ddl<%=task.id%>">
+<span id="task_dl<%=task.id%>">
     <%= best_in_place task, :deadline, :place_holder=>"No deadline set", :path=>deadline_path(project,task), :type => :datetime, :display_as=>'local_time'  %>    
     <% end%>
     </span>
@@ -78,7 +62,7 @@ Task is Done
   <% end %>
 <% end %>
 
-<%= form_for @project , method: :post do |f| %>
+<%= form_for Project.new , method: :post do |f| %>
 
   <div align="center" style="margin-top:30px;">
   <%= button_tag(type: 'submit', class: "btn btn-primary btn-large") do %>
