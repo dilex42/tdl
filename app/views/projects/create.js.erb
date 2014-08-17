@@ -1,2 +1,2 @@
-$('.create_project').prev().after('<div class="project_top"><%= escape_javascript(render partial:"project_top", locals: {project:@project})%></div><div class="tasks"></div>');
+$('.create_project').before('<div class="project_top"><%= escape_javascript(render partial:"project_top", locals: {project:@project})%></div><div class="tasks"></div>');
 
