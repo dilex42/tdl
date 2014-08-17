@@ -1,0 +1,17 @@
+<div class="project-header">
+  <div class="project-title">
+  <i class="icon-cogs icon-silver icon-my icon-large"></i><span  id='project_name<%=project.id%>'><%= best_in_place project, :title %></span>
+  
+    <%= link_to content_tag(:i, '', class: "icon-trash icon-large icon-silver pull-right"), project_path(project),
+                    method: :delete, data: { confirm: 'Are you sure?' }, :remote=>true, :class=>"delete_project" %>
+    </div>
+
+    </div>
+    <div class="new-task">
+    <i class="icon-plus icon-2x icon-green icon-my"></i>
+   <%= form_for [project, Task.new], :html=> {:style=>"display: inline;",:class=>"form-inline create_task" },:remote=>true do |f| %>
+    <%= f.text_field :text, :placeholder=>"Start typing here to create a task...", :class=>"span6 new_task", id:"new_task_#{project.id}" %>
+    <%= f.submit  'New Task', class:"btn btn-success", id:"new_btn_#{project.id}", disabled:"disabled"%>
+    <% end %>
+    
+    </div>

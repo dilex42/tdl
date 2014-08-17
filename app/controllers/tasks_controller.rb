@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  respond_to :html, :json
+  respond_to :html, :json, :js
   before_action :find_project, only: [:create, :destroy, :priority, :deadline] 
   before_action :find_task, only: [:update, :destroy, :priority, :deadline, :done]
   before_action :access
@@ -28,8 +28,10 @@ class TasksController < ApplicationController
     @task.priority = @project.tasks.count+1
     if @task.save
       flash[:notice] = 'Task was successufully created'
-    end 
-    redirect_to projects_path
+      respond_with @project
+    else 
+      redirect_to projects_path
+    end
   end
 
   def update
@@ -51,8 +53,10 @@ class TasksController < ApplicationController
         t.save
       end
       flash[:notice] = 'Task was successufully deleted'
+      respond_with @task
+    else
+      redirect_to projects_path
     end
-    redirect_to projects_path
   end
 
   def priority
@@ -101,8 +105,10 @@ class TasksController < ApplicationController
     @task.is_done = true
     if @task.save
       flash[:notice] = 'Task is done'
+      respond_with @task
+    else
+      redirect_to projects_path
     end
-    redirect_to projects_path
   end
 
 end

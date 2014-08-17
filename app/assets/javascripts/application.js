@@ -17,4 +17,5 @@
 //= require best_in_place
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon
+//= require new_task_button
 //= require_tree .

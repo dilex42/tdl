@@ -11,7 +11,7 @@ class ProjectsControllerTest < ActionController::TestCase
     sign_in users(:user_one)
     post :create
     assert_equal('Project was successufully created',flash["notice"],'wrong flash message')
-    assert_response 302
+    assert_response :success
   end
 
   test "should update project" do

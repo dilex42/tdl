@@ -1,0 +1,4 @@
+$('.delete_project').bind('ajax:success', function() {
+    $(this).parent().parent().parent().next().remove();
+    $(this).parent().parent().parent().remove(); //project_top remove
+});  

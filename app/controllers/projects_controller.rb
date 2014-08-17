@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  respond_to :html, :json
+  respond_to :html, :json, :js
   def index
     @projects = current_user.projects.all
   end
@@ -11,8 +11,11 @@ class ProjectsController < ApplicationController
     @project.user = current_user
     if @project.save
       flash[:notice] = 'Project was successufully created'
+      respond_with @project
+    else
+      redirect_to projects_path
     end
-    redirect_to projects_path
+    
   end
 
   def update
@@ -32,7 +35,9 @@ class ProjectsController < ApplicationController
       if @project.destroy
         flash[:notice] = 'Project was successufully deleted'
       end
+      respond_with @project
+    else
+      redirect_to projects_path
     end
-    redirect_to projects_path
   end
 end

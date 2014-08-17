@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
     if self.deadline
       self.deadline.to_s(:long)
     else
-      nil
+      'No deadline set'
     end 
   end
 end

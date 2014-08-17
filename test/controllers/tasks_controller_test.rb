@@ -5,7 +5,7 @@ class TasksControllerTest < ActionController::TestCase
     sign_in users(:user_one)
     post :create, project_id: projects(:pr_one).id, task: {text: 'test'}
     assert_equal('Task was successufully created',flash["notice"],'wrong flash message')
-    assert_response 302
+    assert_response :success
   end
 
   test "should update task" do
@@ -19,7 +19,7 @@ class TasksControllerTest < ActionController::TestCase
     sign_in users(:user_one)
     delete :destroy, id: tasks(:task_two).id, project_id: projects(:pr_one).id
     assert_equal('Task was successufully deleted',flash["notice"],'wrong flash message')
-    assert_response 302
+    assert_response :success
   end
 
   test "should change priority up" do
@@ -47,9 +47,9 @@ class TasksControllerTest < ActionController::TestCase
 
   test "should mark task as done" do
     sign_in users(:user_one)
-    get :done, id: tasks(:task_two).id, project_id: projects(:pr_one).id
+    xhr :get, :done, id: tasks(:task_two).id, project_id: projects(:pr_one).id, :format => 'js'
     assert_equal('Task is done',flash["notice"],'wrong flash message')
-    assert_response 302
+    assert_response :success
   end
 
 end

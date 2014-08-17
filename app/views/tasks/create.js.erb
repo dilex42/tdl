@@ -1,0 +1,5 @@
+$('.create_task').bind('ajax:success', function() {
+    $(this).parent().parent().next().html("<%= escape_javascript(render partial:'tasks/tasks', locals: {project:@project})%>");
+    $(this[1]).val('');
+    $(this[2]).attr('disabled','true');
+});

@@ -1,0 +1,39 @@
+  <% project.tasks.order('priority').each do |task| %>
+   <% if task.priority == project.tasks.count %>
+<div class="task last-task">
+<% else %>
+<div class="task">
+   <% end %>
+   <% if task.is_done %>
+    <i class="icon-check icon-large icon-my pull-left" style="
+    padding-top: 15px;"></i>
+    <% else %>
+    <%= link_to content_tag(:i, '', class: "icon-check-empty icon-large icon-my pull-left",style:"padding-top:15px;width: 18px;"), done_path(project,task),:remote=>true,:class=>'mark_as_done', data: { confirm: 'Are you sure?' } %>
+    <% end %>
+   <div class="span3 task-title">
+    <span id='task_name<%=task.id%>'><%= best_in_place task, :text ,:path=>project_task_path(project,task)%></span>
+    </div>
+    
+
+
+<div class="task-right" id="task-right">
+<img src="<%= asset_path('sort.png') %>" usemap="#sort<%= task.id%>">
+<map name="sort<%= task.id%>" >
+<area shape="rect" coords="0,0,16,8" href="<%= priority_path(project,task,'up')%>"  title="UP" alt="UP" />
+<area shape="rect" coords="0,8,16,16" href="<%= priority_path(project,task,'down')%>" title="DOWN" alt="DOWN" />
+</map>
+    <%= link_to content_tag(:i, '', class: "icon-trash icon-large icon-my "), project_task_path(project,task), method: :delete, data: { confirm: 'Are you sure?' }, :remote=>true, :class=>"delete_task"  %>
+
+<div class="task-deadline">
+<% if task.is_done %>
+<span>
+Task is Done
+    <% else %>
+<span>
+    <%= best_in_place task, :deadline, :path=>deadline_path(project,task), :type => :datetime, :display_as=>'local_time'  %>  
+    <% end%>
+    </span>
+  </div>
+  </div>
+    </div>
+     <% end %>

@@ -1,0 +1,5 @@
+$('.mark_as_done').bind('ajax:success', function() {
+    var dl = $(this).next().next().children()[3];
+    $(dl).replaceWith('<div class="task-deadline"><span>Task is Done</span></div>');
+    $(this).replaceWith('<i class="icon-check icon-large icon-my pull-left" style="padding-top: 15px;"></i>');
+}); 

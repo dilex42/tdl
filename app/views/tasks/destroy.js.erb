@@ -1,0 +1,7 @@
+$('.delete_task').bind('ajax:success', function() {
+    var to_delete = $(this).parent().parent();
+    if(to_delete.hasClass('last-task') && to_delete.prev().hasClass('task')){
+        to_delete.prev().addClass('last-task');
+    }
+    to_delete.remove();
+});  
